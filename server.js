@@ -2,7 +2,9 @@ var express = require('express')
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 var path = require('path')
+var FileSize = require('./sizes')
 
+var fileSize = new FileSize()
 var app = express()
 
 app.get('/', function (req, res) {
@@ -10,12 +12,12 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', upload.single('filesize'), function(req, res) {
-    res.redirect('/get-file-size?filesize=' + req.file.size);
+    fileSize.add(req.file.size);
+    res.redirect('/get-file-size');
 })
 
 app.get('/get-file-size', function (req, res) {
-    var result = {"filesize": req.query.filesize}
-    res.send(JSON.stringify(result))
+    res.send(JSON.stringify(fileSize.get()))
 })
 
 app.listen(8080, function () {
