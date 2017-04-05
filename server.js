@@ -6,15 +6,16 @@ var path = require('path')
 var app = express()
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'home.html')) // absolute path
+    res.sendFile(path.join(__dirname, 'home.html')) 
 })
 
-app.post('/', function(req, res) {
-    res.end()
+app.post('/', upload.single('filesize'), function(req, res) {
+    res.redirect('/get-file-size?filesize=' + req.file.size);
 })
 
 app.get('/get-file-size', function (req, res) {
-    res.send('file size is X')
+    var result = {"filesize": req.query.filesize}
+    res.send(JSON.stringify(result))
 })
 
 app.listen(8080, function () {

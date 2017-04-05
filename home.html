@@ -2,8 +2,8 @@
 <body>
     <h3> Upload a file and get its size in bytes </h3>
 
-    <form action="/get-file-size">
-      <input type="file" value="Upload">
+    <form method="post" enctype="multipart/form-data" action="/">
+      <input type="file" name="filesize" value="Upload">
       <input type="submit" value="Submit">
     </form>
 
